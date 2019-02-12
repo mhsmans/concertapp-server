@@ -4,13 +4,17 @@
   "description": "concertapp server",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon --exec 'mocha -R min'"
+    "start": "node ./src/server.js",
+    "test": "nodemon --exec './src/test/*.js mocha -R min'"
   },
   "author": "Lars Smans",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
     "mocha": "^5.2.0",
     "mongoose": "^5.4.9",
+    "morgan": "^1.9.1",
     "nodemon": "^1.18.9"
   }
 }
