@@ -5,7 +5,7 @@ describe("Updating records", () => {
   let testConcert;
 
   beforeEach(done => {
-    testConcert = new Concert({ name: "Test concert" });
+    testConcert = new Concert({ name: "Test concert", country: "England" });
     testConcert.save().then(() => done());
   });
 

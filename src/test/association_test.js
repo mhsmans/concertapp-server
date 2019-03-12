@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+const assert = require("assert");
+
 const User = require("../models/user");
 const Concert = require("../models/concert");
 const Album = require("../models/album");
@@ -9,7 +10,7 @@ const Artist = require("../models/artist");
 describe("Associations", () => {
   let user, concert, album, artist;
 
-  beforeEach(done => {
+  beforeEach((done) => {
     user = new User({
       firstName: "Alice",
       lastName: "Alisson",
@@ -55,11 +56,28 @@ describe("Associations", () => {
     ]).then(() => done());
   });
 
-  it.only('Saves relation between ticket and concert', (done) => {
-    User.findOne({ firstName: "Alice" })
-        .then((user) => {
-            console.log(user);
-            done();
-        })
+  it("Saves relation between all model instances", done => {
+    User.findOne({ firstName: "Alice" }).then(user => {
+      console.log("\n Test user: \n" + user + "\n");
+    });
+    Artist.findOne({ name: "RHCP" })
+      .populate("albums")
+      .then(artist => {
+        console.log("Test artist: \n" + artist + "\n");
+      });
+    Concert.findOne({ name: "RHCP 2019 tour" })
+      .populate("artist")
+      .then(concert => {
+        console.log("Test concert: \n" + concert + "\n");
+      });
+    Album.findOne({ title: "Californication" }).then(album => {
+      console.log("Test album: \n" + album);
+    });
+    assert(
+      user.tickets[0].concert.name === "RHCP 2019 tour" &&
+        concert.artist.name === "RHCP" &&
+        artist.albums[0].title === "Californication"
+    );
+    done();
   });
 });

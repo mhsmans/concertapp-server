@@ -4,9 +4,7 @@ var env = {
     dbPort: process.env.DB_PORT || '',
     dbUser: process.env.DB_USER || '',
     dbPassword: process.env.DB_PASSWORD || '',
-    dbDatabase: process.env.DB_DATABASE || 'concertapp',
-    TOKEN_SECRET: process.env.TOKEN_SECRET || 'pvpnCCZfwOF85pBjbOebZiYIDhZ3w9LZrKwBZ7152K89mPCOHtbRlmr5Z91ci4L',
-
+    dbDatabase: process.env.DB_DATABASE || 'concertapp'
 }
 
 var dburl = process.env.NODE_ENV === 'production' ?

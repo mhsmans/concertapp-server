@@ -22,9 +22,10 @@ beforeEach(done => {
   albums.drop(() => {
     artists.drop(() => {
       concerts.drop(() => {
-        users.drop(() => {
-          done();
-        });
+        users
+          .drop()
+          .then(() => done())
+          .catch(() => done());
       });
     });
   });

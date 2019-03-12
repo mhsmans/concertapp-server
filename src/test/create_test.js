@@ -4,8 +4,8 @@ const Concert = require("../models/concert");
 // 'done' derives from mocha library. 
 
 describe("Creating records", () => {
-  it("Saves a concert", (done) => {
-    const testConcert = new Concert({ name: "Test concert" });
+  it("Saves a concert", done => {
+    const testConcert = new Concert({ name: "Test concert", country: "England" });
     testConcert.save()
       .then(() => {
         assert(!testConcert.isNew);

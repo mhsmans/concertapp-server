@@ -10,9 +10,17 @@ const ConcertSchema = new Schema({
     type: String,
     required: [true, "country is required."]
   },
+  date: {
+    type: Date,
+    required: [true, "date is required"]
+  },
   artist: {
     type: Schema.Types.ObjectId,
     ref: "artist"
+  }, 
+  image: {
+    type: String,
+    required: false
   }
 });
 
