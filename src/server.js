@@ -1,19 +1,23 @@
 const express = require("express");
 const routes = require("./routes/routes");
 const bodyParser = require("body-parser");
+const passport = require("passport");
 const app = express();
-const mongoose = require("mongoose");
 
-mongoose.Promise = global.Promise;
-if(process.env.NODE_ENV !== "test") {
-    mongoose.connect("mongodb://localhost/concertapp", { useNewUrlParser: true });
-}
+require('./config/mongo.db');
+require('./config/passport');
 
 app.use(bodyParser.json());
+app.use(passport.initialize());
+
 routes(app);
 
 app.use((err, req, res, next) => {
-    res.status(422).send({ error: err.message });
+  if (err.name === "UnauthorizedError") {
+    res.status(401);
+    res.json({ message: err.name + ": " + err.message });
+  }
+  res.status(422).json({ message: "Something went wrong." })
 });
 
 module.exports = app;
