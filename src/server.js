@@ -3,10 +3,17 @@ const routes = require("./routes/routes");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const app = express();
+const cors = require('cors');
+
+const corsOptions = {
+  origin: 'http://localhost:8080',
+  optionsSuccessStatus: 200,
+}
 
 require('./config/mongo.db');
 require('./config/passport');
 
+app.use(cors(corsOptions))
 app.use(bodyParser.json());
 app.use(passport.initialize());
 
@@ -16,8 +23,10 @@ app.use((err, req, res, next) => {
   if (err.name === "UnauthorizedError") {
     res.status(401);
     res.json({ message: err.name + ": " + err.message });
+  } else if (err) {
+    res.status(422)
+    .json({ message: "Something went wrong." })
   }
-  res.status(422).json({ message: "Something went wrong." })
 });
 
 module.exports = app;

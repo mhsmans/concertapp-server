@@ -6,18 +6,10 @@ const ArtistSchema = new Schema({
     type: String,
     required: [true, "name is required."]
   },
-  albums: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "album"
-    }
-  ]
-});
-
-// Middleware for removing albums.
-ArtistSchema.pre("remove", function(next) {
-  const Album = mongoose.model("album");
-  Album.deleteMany({ _id: { $in: this.albums } }).then(() => next());
+  bio: {
+    type: String,
+    required: [true, "bio is required."]
+  }
 });
 
 const Artist = mongoose.model("artist", ArtistSchema);
