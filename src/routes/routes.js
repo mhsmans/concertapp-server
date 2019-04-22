@@ -19,10 +19,10 @@ module.exports = app => {
   /**************CONCERT ROUTES***********/
   app.get("/api/concerts", ConcertsController.getConcerts);
   app.get("/api/concerts/:id", ConcertsController.getConcert);
-  app.post("/api/concerts", ConcertsController.createConcert);
+  app.post("/api/concerts", auth, ConcertsController.createConcert);
 
   /**************ARTIST ROUTES************/
   app.get("/api/artists", ArtistsController.getArtists);
   app.get("/api/artists/:id", ArtistsController.getArtist);
-  app.post("/api/artists", ArtistsController.createArtist);
+  app.post("/api/artists", auth, ArtistsController.createArtist);
 };

@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const TicketSchema = require("../schemas/ticket");
-const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 
@@ -21,6 +20,12 @@ const UserSchema = new Schema({
     type: String,
     required: [true, "email is required."],
     unique: true
+  },
+  role: {
+    type: String,
+    required: [true, "role is required."],
+    enum: ["default", "admin"],
+    default: "default"
   },
   hash: String,
   salt: String,

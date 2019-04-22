@@ -1,7 +1,7 @@
 {
   "name": "concertapp",
   "version": "1.0.0",
-  "description": "concertapp server",
+  "description": "Server created by Lars Smans | 2085620",
   "main": "index.js",
   "scripts": {
     "start": "node ./src/index.js",

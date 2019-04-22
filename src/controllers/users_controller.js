@@ -60,19 +60,9 @@ module.exports.viewProfile = function(req, res) {
     });
   } else {
     // Otherwise continue
-    // User.findById(req.payload._id)
-    //   .populate("tickets[0]")
-    //   .exec(function(err, user) {
-    //     res.status(200).json(user);
-    //   });
-
     User.findById(req.payload._id)
       .populate({
-        path: "tickets.concert",
-        populate: {
-          path: "_id",
-          model: Concert
-        }
+        path: "tickets.concert"
       })
       .then(user => {
         res.status(200).json(user);
@@ -101,6 +91,7 @@ module.exports.addTicket = function(req, res) {
   } else {
     // Otherwise add ticket
     User.findById(req.payload._id).then(user => {
+      console.log(user)
       user.tickets.push(req.body);
       user.save();
       res.status(200).json(user);

@@ -2,64 +2,50 @@ const assert = require("assert");
 
 const User = require("../models/user");
 const Concert = require("../models/concert");
-const Album = require("../models/album");
 const Artist = require("../models/artist");
-// const Ticket = require("../schemas/ticket");
-// const Song = require("../schemas/song");
 
 describe("Associations", () => {
-  let user, concert, album, artist;
+  let user, concert, artist;
 
-  beforeEach((done) => {
+  beforeEach(done => {
+    artist = new Artist({
+      name: "RHCP",
+      bio: "This bio is very short."
+    });
+
+    concert = new Concert({
+      name: "RHCP 2019 tour",
+      country: "England",
+      date: "20-02-2020",
+      image: "image url",
+      ticketsAvailable: "2000",
+      ticketsLeft: "1490",
+      description: "Short description",
+      price: "30.40"
+    });
+
     user = new User({
       firstName: "Alice",
       lastName: "Alisson",
       email: "alice@test.com",
       password: "superstrongpassword",
-      tickets: [
-        {
-          price: 20.0
-        }
-      ]
+      tickets: []
     });
 
-    concert = new Concert({
-      name: "RHCP 2019 tour",
-      country: "England"
-    });
-
-    artist = new Artist({
-      name: "RHCP"
-    });
-
-    album = new Album({
-      title: "Californication",
-      songs: [
-        {
-          title: "Californication"
-        },
-        {
-          title: "By the way"
-        }
-      ]
-    });
-
-    user.tickets[0].concert = concert;
     concert.artist = artist;
-    artist.albums.push(album);
+    user.tickets.push({ concert: concert._id });
 
-    Promise.all([
-      user.save(),
-      concert.save(),
-      artist.save(),
-      album.save()
-    ]).then(() => done());
+    Promise.all([user.save(), artist.save(), concert.save()]).then(() =>
+      done()
+    );
   });
 
-  it("Saves relation between all model instances", done => {
-    User.findOne({ firstName: "Alice" }).then(user => {
-      console.log("\n Test user: \n" + user + "\n");
-    });
+  it.only("Saves relation between all model instances", done => {
+    User.findOne({ firstName: "Alice" })
+      .populate("tickets.concert")
+      .then(user => {
+        console.log("\n Test user: \n" + user + "\n");
+      });
     Artist.findOne({ name: "RHCP" })
       .populate("albums")
       .then(artist => {
@@ -70,13 +56,9 @@ describe("Associations", () => {
       .then(concert => {
         console.log("Test concert: \n" + concert + "\n");
       });
-    Album.findOne({ title: "Californication" }).then(album => {
-      console.log("Test album: \n" + album);
-    });
     assert(
-      user.tickets[0].concert.name === "RHCP 2019 tour" &&
-        concert.artist.name === "RHCP" &&
-        artist.albums[0].title === "Californication"
+      user.tickets[0].concert._id === concert._id &&
+        concert.artist.name === "RHCP"
     );
     done();
   });

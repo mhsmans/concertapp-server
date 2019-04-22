@@ -10,8 +10,12 @@ const TicketSchema = new Schema({
 });
 
 // Middleware for removing one ticket from ticketsLeft in concert object.
-// TicketSchema.post("save", function(doc, next) {
-//   Concert.findOneAndUpdate({_id: })
-// });
+TicketSchema.post("save", function() {
+  Concert.findByIdAndUpdate(
+    this.concert,
+    { $inc: { ticketsLeft: -1 } },
+    { new: true }
+  )
+});
 
 module.exports = TicketSchema;

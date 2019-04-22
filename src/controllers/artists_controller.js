@@ -22,13 +22,19 @@ module.exports.getArtist = function(req, res) {
 };
 
 module.exports.createArtist = function(req, res) {
-  const artist = new Artist(req.body);
+  if (req.payload.email == "admin@mail.com") {
+    const artist = new Artist(req.body);
 
-  artist.save(err => {
-    if (err)
-      return res
-        .status(500)
-        .send({ message: "Creating artist failed.", error: err });
-    return res.status(200).send({ message: "Artist created!" });
-  });
+    artist.save(err => {
+      if (err)
+        return res
+          .status(500)
+          .send({ message: "Creating artist failed.", error: err });
+      return res.status(200).send({ message: "Artist created!" });
+    });
+  } else {
+    res
+      .status(400)
+      .send({ message: "You don't have permission to create content." });
+  }
 };
