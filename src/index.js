@@ -9,24 +9,15 @@ const CONNECTION_URL =
   process.env.DB_PASSWORD +
   "concertiodb-dndfi.gcp.mongodb.net/test?retryWrites=true";
 const DATABASE_NAME = process.env.DB_DATABASE;
+const client = new MongoClient(CONNECTION_URL, { useNewUrlParser: true });
 
-// const database, collection;
-
-if (process.env.NODE_ENV == "production") {
+if (process.env == "production") {
   app.listen(config.env.webPort, () => {
-    MongoClient.connect(
-      CONNECTION_URL,
-      { useNewUrlParser: true },
-      (error, client) => {
-        if (error) {
-          throw error;
-        }
-        database = client.db(DATABASE_NAME);
-        console.log(
-          "Connected to `" + DATABASE_NAME + "` on port " + app.get("port")
-        );
-      }
-    );
+    client.connect(err => {
+      //   const collection = client.db("test").collection("devices");
+      // perform actions on the collection object
+      client.close();
+    });
   });
 } else {
   app.listen(config.env.webPort, function() {
