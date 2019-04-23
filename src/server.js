@@ -7,12 +7,12 @@ const cors = require('cors');
 const config = require("./config/env/env");
 
 const corsOptions = {
-  origin: 'http://localhost:8080' | process.env.ALLOW_ORIGIN,
+  origin: 'http://localhost:8080' || process.env.ALLOW_ORIGIN,
   optionsSuccessStatus: 200,
 }
 
-app.set('port', (process.env.PORT | config.env.webPort));
-app.set('env', (process.env.ENV | 'development'))
+app.set('port', (process.env.PORT || config.env.webPort));
+app.set('env', (process.env.ENV || 'development'))
 
 require('./config/mongo.db');
 require('./config/passport');
