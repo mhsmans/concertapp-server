@@ -12,7 +12,7 @@ const DATABASE_NAME = process.env.DB_DATABASE;
 
 // const database, collection;
 
-if (process.env == "production") {
+if (process.env.NODE_ENV == "production") {
   app.listen(config.env.webPort, () => {
     MongoClient.connect(
       CONNECTION_URL,
@@ -21,7 +21,7 @@ if (process.env == "production") {
         if (error) {
           throw error;
         }
-        // database = client.db(DATABASE_NAME);
+        database = client.db(DATABASE_NAME);
         console.log(
           "Connected to `" + DATABASE_NAME + "` on port " + app.get("port")
         );
