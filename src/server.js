@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const app = express();
 const cors = require('cors');
+const config = require("./config/env/env");
 
 const corsOptions = {
   origin: 'http://localhost:8080' | process.env.ALLOW_ORIGIN,

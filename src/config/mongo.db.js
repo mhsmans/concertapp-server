@@ -9,5 +9,3 @@ mongoose.connection
   .on("error", error => {
     console.warn("Warning", error.toString());
   });
-
-  module.exports = connection;
