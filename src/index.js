@@ -1,5 +1,6 @@
 const app = require('./server');
+const config = require('./config/env/env');
 
-app.listen(3050, () => {
-    console.log("Running on port 3050");
+app.listen(config.env.webPort, function () {
+    console.log('Server listening on port ' + app.get('port'));
 });
